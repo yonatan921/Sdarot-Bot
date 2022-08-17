@@ -61,14 +61,11 @@ def main():
     parser.add_argument("season", help="Season to select")
     parser.add_argument("episode", help="Episode to watch")
     args = parser.parse_args()
-    series = args.series
-    season = args.season
-    episode = args.episode
     bot = SdarotBot()  # init bot
     bot.open()  # connect to sdarot website
-    bot.search(series)  # search for the series
-    bot.choose_season(season)  # chose season
-    bot.choose_episode(episode)  # chose episode and have fun!
+    bot.search(args.series)  # search for the series
+    bot.choose_season(args.season)  # chose season
+    bot.choose_episode(args.episode)  # chose episode and have fun!
 
 
 if __name__ == "__main__":
