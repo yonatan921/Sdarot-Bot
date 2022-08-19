@@ -1,5 +1,4 @@
 import argparse
-import time
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
@@ -29,8 +28,8 @@ class SdarotBot:
         :param series_name: The name of the chosen series
         :return: None
         """
-        self.driver.find_element(By.XPATH, value='//form[@id = "mainSearch"]/div/input').send_keys(series_name)
-        self.driver.find_element(By.XPATH, '//form[@id = "mainSearch"]/div/span').click()
+        self.driver.find_element(By.XPATH, value='//form[@id = "mainSearch"]/div/input').send_keys(series_name)  # send series name
+        self.driver.find_element(By.XPATH, '//form[@id = "mainSearch"]/div/span').click()  # click search
 
     def choose_season(self, season_number: str) -> None:
         """
@@ -38,7 +37,7 @@ class SdarotBot:
         :param season_number: The number of the chosen season
         :return: None
         """
-        self.driver.find_element(By.XPATH, value=f'//ul[@id = "season"]/li[{season_number}]').click()
+        self.driver.find_element(By.XPATH, value=f'//ul[@id = "season"]/li[{season_number}]').click()  # click chosen season
 
     def choose_episode(self, episode_number: str) -> None:
         """
@@ -46,9 +45,9 @@ class SdarotBot:
         :param episode_number: The number of the chosen episode
         :return: None
         """
-        self.driver.find_element(By.XPATH, value=f'//ul[@id = "episode"]/li[{episode_number}]').click()
-        WebDriverWait(self.driver, timeout=40).until(EC.visibility_of_element_located((By.ID, "proceed"))).click()
-        self.driver.find_element(By.XPATH, value="//section[@id = 'player']/div[2]/div[2]").click()
+        self.driver.find_element(By.XPATH, value=f'//ul[@id = "episode"]/li[{episode_number}]').click()  # click chosen episode
+        WebDriverWait(self.driver, timeout=40).until(EC.visibility_of_element_located((By.ID, "proceed"))).click()  # wait until proceed btn and click
+        self.driver.find_element(By.XPATH, value="//section[@id = 'player']/div[2]/div[2]").click()  # start the episode
 
 
 def main():
