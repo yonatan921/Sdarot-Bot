@@ -47,10 +47,7 @@ class SdarotBot:
         :return: None
         """
         self.driver.find_element(By.XPATH, value=f'//ul[@id = "episode"]/li[{episode_number}]').click()
-        try:
-            WebDriverWait(self.driver, timeout=40).until(EC.visibility_of_element_located((By.ID, "proceed"))).click()
-        except:
-            self.driver.quit()
+        WebDriverWait(self.driver, timeout=40).until(EC.visibility_of_element_located((By.ID, "proceed"))).click()
         self.driver.find_element(By.XPATH, value="//section[@id = 'player']/div[2]/div[2]").click()
 
 
