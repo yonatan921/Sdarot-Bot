@@ -11,7 +11,7 @@ class SdarotBot:
     def __init__(self):
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument("--start-maximized")  # maximize window
-        chrome_options.add_experimental_option("detach", True)  # prevet selenium from closing browser
+        chrome_options.add_experimental_option("detach", True)  # prevent selenium from closing browser
         chrome_options.add_experimental_option("excludeSwitches", ['enable-automation'])
         self.driver = webdriver.Chrome(options=chrome_options, service=Service(ChromeDriverManager().install()))
 
