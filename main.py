@@ -3,13 +3,16 @@ import time
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 
 
 class SdarotBot:
     def __init__(self):
         chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_argument("--start-maximized")
+        chrome_options.add_argument("--start-maximized")  # maximize window
+        chrome_options.add_experimental_option("detach", True)  # prevet selenium from closing browser
         chrome_options.add_experimental_option("excludeSwitches", ['enable-automation'])
         self.driver = webdriver.Chrome(options=chrome_options, service=Service(ChromeDriverManager().install()))
 
@@ -26,10 +29,8 @@ class SdarotBot:
         :param series_name: The name of the chosen series
         :return: None
         """
-        search_input = self.driver.find_element(By.XPATH, value='//form[@id = "mainSearch"]/div/input')
-        search_input.send_keys(series_name)
-        search_btn = self.driver.find_element(By.XPATH, '//form[@id = "mainSearch"]/div/span')
-        search_btn.click()
+        self.driver.find_element(By.XPATH, value='//form[@id = "mainSearch"]/div/input').send_keys(series_name)
+        self.driver.find_element(By.XPATH, '//form[@id = "mainSearch"]/div/span').click()
 
     def choose_season(self, season_number: str) -> None:
         """
@@ -37,8 +38,7 @@ class SdarotBot:
         :param season_number: The number of the chosen season
         :return: None
         """
-        season_btn = self.driver.find_element(By.XPATH, value=f'//ul[@id = "season"]/li[{season_number}]')
-        season_btn.click()
+        self.driver.find_element(By.XPATH, value=f'//ul[@id = "season"]/li[{season_number}]').click()
 
     def choose_episode(self, episode_number: str) -> None:
         """
@@ -46,13 +46,12 @@ class SdarotBot:
         :param episode_number: The number of the chosen episode
         :return: None
         """
-        episode_btn = self.driver.find_element(By.XPATH, value=f'//ul[@id = "episode"]/li[{episode_number}]')
-        episode_btn.click()
-        time.sleep(36)
-        proceed = self.driver.find_element(By.ID, value="proceed")
-        proceed.click()
-        start = self.driver.find_element(By.XPATH, value="//section[@id = 'player']/div[2]/div[2]")
-        start.click()
+        self.driver.find_element(By.XPATH, value=f'//ul[@id = "episode"]/li[{episode_number}]').click()
+        try:
+            WebDriverWait(self.driver, timeout=40).until(EC.visibility_of_element_located((By.ID, "proceed"))).click()
+        except:
+            self.driver.quit()
+        self.driver.find_element(By.XPATH, value="//section[@id = 'player']/div[2]/div[2]").click()
 
 
 def main():
