@@ -20,7 +20,7 @@ class SdarotBot:
         Open Sdarot website
         :return: None
         """
-        self.driver.get('https://www.sdarot.website/')
+        self.driver.get('https://www.sdarot.buzz/')
 
     def search(self, series_name: str) -> None:
         """
